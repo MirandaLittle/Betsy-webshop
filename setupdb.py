@@ -14,7 +14,10 @@ def populate_test_database():
         [
             models.User,
             models.Product,
+            models.UserProduct,
             models.Transaction,
+            models.Tag,
+            models.TagProduct
         ]
     )
 
@@ -25,14 +28,33 @@ def populate_test_database():
 
     product_data = [
         ["Tote bag", "Tote bag with cat illustration", 8.99, 10],
-        ["Knitted sweater", "Striped knitted sweater with black and white", 33.99, 5]
+        ["Knitted sweater", "Striped knitted sweater with black and white", 33.99, 5],
+        ["Christmas socks", "Woollen Christmas socks", 12.99, 3]
+    ]
+
+    user_product_data = [
+        [1, 1],
+        [1, 3],
+        [2, 2]
     ]
 
     transaction_data = [
-        [0, 1, 1],
-        [1, 0, 2]
-
+        [1, 2, 2],
+        [2, 1, 2]
     ]
+
+    tag_data = [
+        ["Accessories"],
+        ["Clothing"]
+    ]
+
+    tag_product_data = [
+        [1,1],
+        [2,2],
+        [3,2]
+    ]
+
+
 
     for user in user_data:
         models.User.create(
@@ -48,12 +70,29 @@ def populate_test_database():
             price_per_unit=product[2],
             stock_quantity=product[3]       
         )
+
+    for user in user_product_data:
+        models.UserProduct.create(
+            user_id=user[0],
+            product_id=user[1]
+        )
     
     for transaction in transaction_data:
         models.Transaction.create(
             buyer=transaction[0],
             product=transaction[1],
             quantity=transaction[2]
+        )
+
+    for tag in tag_data:
+        models.Tag.create(
+            tag=tag[0]
+        )
+
+    for tag_product in tag_product_data:
+        models.TagProduct.create(
+            product=tag_product[0],
+            tag=tag_product[1]
         )
 
     models.db.close()
